@@ -39,16 +39,16 @@ let persons = [
     response.json(person)
   })
 
-  app.get('/api/delete/:id', (request, response) => {
+  app.delete('/api/persons/:id', (request, response) => {
     const lengthBefore = persons.length;
     persons = persons.filter(person => person.id !== Number(request.params.id))
 
     if (lengthBefore === persons.length) {
-        response.status(404).send("<p>No persons found with given id, no deletions happened</p>")
+        response.status(404).send("No persons found with given id, no deletions happened")
         return
     }
 
-    response.status(200).send("<p>Person deleted</p>")
+    response.status(200).send("Person deleted")
   })
 
   app.get('/info', (_, response) => {
