@@ -29,10 +29,10 @@ let persons = [
   })
 
   app.get('/api/persons/:id', (request, response) => {
-    const person = persons.find(person => person.id === request.params.id)
+    const person = persons.find(person => person.id === Number(request.params.id))
 
     if (person === undefined) {
-        response.status(404).send(`No person was found with given id`)
+        response.status(404).send("No person was found with given id")
     }
 
     response.json(person)
