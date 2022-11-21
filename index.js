@@ -1,6 +1,8 @@
 const express = require("express")
 const app = express()
+const morgan = require("morgan")
 
+app.use(morgan("tiny"))
 app.use(express.json())
 
 let persons = [
@@ -57,11 +59,11 @@ let persons = [
     const newPerson = request.body
 
     if (!("name" in newPerson)) {
-        response.status(400).send("Name is missing")
+        response.status(400).send({error: "Name is missing"})
         return
     }
     if (!("number" in newPerson)) {
-        response.status(400).send("Number is missing")
+        response.status(400).send({error: "Number is missing"})
         return
     }
 
@@ -69,7 +71,7 @@ let persons = [
         person => (newPerson.name === person.name)
     )
     if (alreadyExists) {
-        response.status(400).send("A person with that name already exists")
+        response.status(400).send({error: "A person with that name already exists"})
         return
     }
 
