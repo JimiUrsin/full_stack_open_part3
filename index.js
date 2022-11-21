@@ -54,21 +54,29 @@ let persons = [
   })
 
   app.post('/api/persons', (request, response) => {
-    const person = request.body
+    const newPerson = request.body
 
-    if (!("name" in person)) {
+    if (!("name" in newPerson)) {
         response.status(400).send("Name is missing")
         return
     }
-    if (!("number" in person)) {
+    if (!("number" in newPerson)) {
         response.status(400).send("Number is missing")
         return
     }
 
-    person.id = Math.floor(Math.random() * Number.MAX_VALUE) // Big enough?
+    const alreadyExists = persons.some(
+        person => (newPerson.name === person.name)
+    )
+    if (alreadyExists) {
+        response.status(400).send("A person with that name already exists")
+        return
+    }
 
-    persons = persons.concat(person)
-    response.status(200).json(person)
+    newPerson.id = Math.floor(Math.random() * Number.MAX_VALUE) // Big enough?
+
+    persons = persons.concat(newPerson)
+    response.status(200).json(newPerson)
   })
 
   app.get('/info', (_, response) => {
